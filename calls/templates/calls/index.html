@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Название</th>
+          <th scope="col">Длительность</th>
+          <th scope="col">Аудио файл</th>
+          <th scope="col">Тексовый файл</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">1</th>
+          <td>Название 1</td>
+          <td>2с</td>
+          <td>Путь к аудио файлу</td>
+          <td>Путь к текстовому файлу</td>
+        </tr>
+        <tr>
+          <th scope="row">2</th>
+          <td>Название 2</td>
+          <td>12с</td>
+          <td>Путь к аудио файлу</td>
+          <td>Путь к текстовому файлу</td>
+        </tr>
+      </tbody>
+    </table>
+{% endblock %}
