@@ -1,8 +1,9 @@
 from django.urls import path
-
 from django.views.generic import TemplateView
 
+from .views import *
 
 urlpatterns = [
-    path('', TemplateView.as_view(template_name='calls/index.html')),
+    path('', CallsIndex.as_view()),
+    path('get/calls', GetLastCalls.as_view(), name='get_calls'),
 ]

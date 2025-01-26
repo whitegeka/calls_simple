@@ -1,0 +1,10 @@
+<tr>
+  <th scope="row">{% if counter %}{{ counter }}{% else %}{{ forloop.revcounter }}{%endif%}</th>
+  <td>{{ call.name }}</td>
+  <td>{{ call.phone }}</td>
+  <td>{{ call.date_create }}</td>
+  <td>{{ call.duration }}</td>
+  <td>{{ call.text }}</td>
+  <td>{{ call.link_audio }}</td>
+  <td>{{ call.link_text }}</td>
+</tr>

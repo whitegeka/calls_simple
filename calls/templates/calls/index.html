@@ -5,27 +5,40 @@
       <thead>
         <tr>
           <th scope="col">#</th>
+          <th scope="col">Номер</th>
           <th scope="col">Название</th>
+          <th scope="col">Дата создания</th>
           <th scope="col">Длительность</th>
+          <th scope="col">Текст</th>
           <th scope="col">Аудио файл</th>
-          <th scope="col">Тексовый файл</th>
+          <th scope="col">Файл</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>Название 1</td>
-          <td>2с</td>
-          <td>Путь к аудио файлу</td>
-          <td>Путь к текстовому файлу</td>
-        </tr>
-        <tr>
-          <th scope="row">2</th>
-          <td>Название 2</td>
-          <td>12с</td>
-          <td>Путь к аудио файлу</td>
-          <td>Путь к текстовому файлу</td>
-        </tr>
+        {% for call in list_calls %}
+            {% include 'calls/row_calls.html' %}
+        {% endfor %}
       </tbody>
     </table>
+{% endblock %}
+{% block extra_js %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            var last_element = {{ last_element }};
+            function update_calls(){
+                $.ajax({
+                    url:"{% url 'get_calls' %}?last_element="+last_element,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        last_element = data['last_element'];
+                        if (data['string']) {
+                            $(".table>tbody").prepend(data['string']);
+                        }
+                    }
+                });
+            }
+            setInterval(update_calls, 5000);
+        });
+    </script>
 {% endblock %}
