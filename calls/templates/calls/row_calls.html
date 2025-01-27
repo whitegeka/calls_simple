@@ -1,10 +1,8 @@
 <tr>
   <th scope="row">{% if counter %}{{ counter }}{% else %}{{ forloop.revcounter }}{%endif%}</th>
-  <td>{{ call.name }}</td>
-  <td>{{ call.phone }}</td>
-  <td>{{ call.date_create }}</td>
-  <td>{{ call.duration }}</td>
-  <td>{{ call.text }}</td>
-  <td>{{ call.link_audio }}</td>
-  <td>{{ call.link_text }}</td>
+  <td>{{ call.caller_number }}</td>
+  <td>{{ call.date_of_call|date:'d-m-Y H:i' }}</td>
+  <td style="width:100%">{{ call.transcribed_text }}</td>
+  <td>{{ call.call_lenght_s }}</td>
+  <td style="width:10%">{{ call.link_inp_aud }}</td>
 </tr>
