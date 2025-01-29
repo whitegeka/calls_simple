@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta, timezone
+
 from django.shortcuts import render
 from django.views import View
 from django.views.generic import ListView
@@ -7,13 +9,23 @@ from django.template.loader import render_to_string
 from .models import Calls
 
 
-class CallsIndex(ListView):
+class SelfMixin(object):
+    """
+    The class work in datestart
+    """
+    def get_datestart(self):
+        return datetime.now(timezone.utc)-timedelta(days=2)
+
+
+class CallsIndex(ListView, SelfMixin):
     models = Calls
     template_name = 'calls/index.html'
     context_object_name = 'list_calls'
 
     def get_queryset(self):
-        return Calls.objects.all().order_by('-id')
+        return Calls.objects.filter(
+                date_of_call__gte=self.get_datestart()
+            ).order_by('-id')
 
     def get_context_data(self, *args, **kwargs):
         context = super(CallsIndex, self).get_context_data(**kwargs)
@@ -24,7 +36,7 @@ class CallsIndex(ListView):
         return context
 
 
-class GetLastCalls(View):
+class GetLastCalls(View, SelfMixin):
     """
     The class returns a new call 
     
@@ -32,7 +44,9 @@ class GetLastCalls(View):
     """
     def get(self, request, *args, **kwargs):
         data = {'last_element': request.GET.get('last_element')}
-        list_calls = Calls.objects.all()
+        list_calls = Calls.objects.filter(
+                date_of_call__gte=self.get_datestart()
+            )
         sort_calls = list_calls.filter(pk__gt=str(int(data['last_element'])))
         if len(sort_calls) == 0:
             return JsonResponse(data)
@@ -40,7 +54,6 @@ class GetLastCalls(View):
             obj = sort_calls[0]
         data['string'] = render_to_string('calls/row_calls.html', {
             'call': obj,
-            'counter': list_calls.count()
             }, request=request)
         data['last_element'] = obj.pk
         return JsonResponse(data)

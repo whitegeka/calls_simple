@@ -1,5 +1,7 @@
 *.pyc
 db.sqlite3
 base/settings_second.py
+deploy/*
+logs/*
 
 .idea/*
