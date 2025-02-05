@@ -1,9 +1,10 @@
+{% load call_extra %}
 <tr>
   <th scope="row">{{ call.pk }}</th>
   <td>{{ call.caller_number }}</td>
   <td>79180003187</td>
   <td>{{ call.date_of_call|date:'d-m-Y H:i' }}</td>
-  <td style="width:100%">{{ call.transcribed_text }}</td>
+  <td style="width:100%">{{ call.transcribed_text|replace_n|safe }}</td>
   <td>{{ call.call_lenght_s }}</td>
   <td style="width:10%">
         <audio controls>
